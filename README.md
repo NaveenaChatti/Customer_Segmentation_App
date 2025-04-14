@@ -1,67 +1,45 @@
 # Walmart Customer Segmentation
 
-This project segments Walmart customers into categories based on their demographic and spending data using clustering algorithms. A **Streamlit app** is also created to predict customer categories based on age and spending.
+This project helps to categorize Walmart customers based on their **age** and **purchase** habits using **KMeans clustering**. A **Streamlit app** allows users to input customer data (age and purchase amount) and predict which category the customer belongs to.
 
-## Table of Contents
-- [Overview](#overview)
-- [Technologies](#technologies)
-- [Dataset](#dataset)
-- [Clustering Process](#clustering-process)
-- [Streamlit App](#streamlit-app)
-- [Model Deployment](#model-deployment)
-- [Getting Started](#getting-started)
-- [Conclusion](#conclusion)
+## What’s Inside
+- **Overview**: How we segment customers and predict categories
+- **Tech Used**: Tools and libraries used in the project
+- **Dataset**: Information about the data
+- **Clustering**: How the customer groups were created
+- **Streamlit App**: How the app works
+- **Model Deployment**: Saving and using the model for predictions
 
-## Overview
+## Tech Used
 
-This project segments customers into clusters like **Emerging Shoppers**, **Prime Spenders**, and **Golden Year Economists** based on their age and purchase behavior using **KMeans clustering**. The Streamlit app allows users to input customer data and predict the customer category.
-
-## Technologies
-
-- Python
-- Pandas, NumPy
-- Scikit-learn (KMeans, Scaling)
-- Streamlit (for app)
-- Pickle (for saving models)
+- **Python** for everything
+- **Pandas & NumPy** for data handling
+- **Scikit-learn** for clustering and scaling
+- **Streamlit** to build the app
+- **Pickle** to save the model
 
 ## Dataset
 
-The dataset contains:
-- `User_ID`: Customer ID
-- `Age`: Customer's age
-- `Purchase`: Total spending
+The dataset contains data on **550,068 customers**, including information like:
+
+- Age
+- Purchase amount
+- Other features, but only **age** and **purchase** were used for clustering
 
 ## Clustering Process
 
-- **Preprocessing**: Grouped by `User_ID` and `Age`, then scaled the data using `StandardScaler`.
-- **KMeans**: Used KMeans to find 3 customer segments.
-- **Silhouette Score**: Used for cluster validation.
+1. **Preprocessing**: Grouped customers by age and summed their purchases.
+2. **Standardizing**: Scaled the data to make it ready for clustering.
+3. **Clustering**: Used **KMeans** to group customers into three categories based on their spending behavior:
+   - **Emerging Shoppers**
+   - **Prime Spenders**
+   - **Golden Year Economists**
 
 ## Streamlit App
 
-The app predicts customer categories based on input age and spending.
+The app takes **age** and **purchase amount** as input and predicts which category the customer belongs to. Here's how it works:
 
-### App Code:
+1. You enter **age** and **purchase amount**.
+2. The model predicts which of the three customer categories the person belongs to.
+3. The result shows up on the screen.
 
-```python
-import streamlit as st
-import numpy as np
-import pickle
-
-# Load model and scaler
-kmeans_new = pickle.load(open('kmeans_new.pkl', 'rb'))
-scaler = pickle.load(open('scaler.pkl', 'rb'))
-
-def clustering(age, purchase):
-    new_record = np.array([[age, purchase]])
-    scaled_record = scaler.transform(new_record)
-    predicted_cluster = kmeans_new.predict(scaled_record)
-    return ["Emerging Shoppers", "Prime Spenders", "Golden Year Economists"][predicted_cluster[0]]
-
-st.markdown("# Walmart Customer Categorization App")
-age = st.number_input('Customer Age', 17, 75)
-purchase = st.number_input('Purchase Amount', 0.0, 9999999.0)
-
-if st.button('Predict Category'):
-    cluster_label = clustering(age, purchase)
-    st.success(f'The customer belongs to "{cluster_label}" category')
