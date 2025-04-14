@@ -1,14 +1,33 @@
-# Walmart Customer Segmentation
+# Walmart Customer Segmentation App
 
 This project helps to categorize Walmart customers based on their **age** and **purchase** habits using **KMeans clustering**. A **Streamlit app** allows users to input customer data (age and purchase amount) and predict which category the customer belongs to.
 
-## What’s Inside
-- **Overview**: How we segment customers and predict categories
-- **Tech Used**: Tools and libraries used in the project
-- **Dataset**: Information about the data
-- **Clustering**: How the customer groups were created
-- **Streamlit App**: How the app works
-- **Model Deployment**: Saving and using the model for predictions
+## Key Actions Taken:
+
+- **Data Preprocessing**:
+  - Loaded the Walmart customer dataset.
+  - Selected **age** and **purchase** features for clustering.
+  - Grouped data by age and summed the total purchase amount for each customer.
+
+- **Data Scaling**:
+  - Applied **StandardScaler** to normalize the data (age and purchase values) for clustering.
+
+- **KMeans Clustering**:
+  - Used the **Elbow method** to find the optimal number of clusters (k=6).
+  - Ran **KMeans clustering** to segment customers into 3 groups based on their age and purchase behavior:
+    - **Emerging Shoppers**
+    - **Prime Spenders**
+    - **Golden Year Economists**
+  - Evaluated the clustering model using the **Silhouette score** for cluster validity with highest score of 0.48 for 3 clusters.
+  - Model executed again with 3 clusters.
+ 
+- **Streamlit App Development**:
+  - Built a web app using **Streamlit** to predict customer categories based on input age and purchase amount.
+  - Users enter **age** and **purchase** amount to receive a prediction for the customer's category.
+  
+- **Model Deployment**:
+  - Saved the **KMeans model** and **scaler** using **Pickle** for later use in the app.
+  - Loaded the saved model in the Streamlit app to predict customer categories without retraining.
 
 ## Tech Used
 
@@ -17,25 +36,6 @@ This project helps to categorize Walmart customers based on their **age** and **
 - **Scikit-learn** for clustering and scaling
 - **Streamlit** to build the app
 - **Pickle** to save the model
-
-## Dataset
-
-The dataset contains data on **550,068 customers**, including information like:
-
-- Age
-- Purchase amount
-- Other features, but only **age** and **purchase** were used for clustering
-
-## Clustering Process
-
-1. **Preprocessing**: Grouped customers by age and summed their purchases.
-2. **Standardizing**: Scaled the data to make it ready for clustering.
-3. **Clustering**: Used **KMeans** to group customers into three categories based on their spending behavior:
-   - **Emerging Shoppers**
-   - **Prime Spenders**
-   - **Golden Year Economists**
-
-## Streamlit App
 
 The app takes **age** and **purchase amount** as input and predicts which category the customer belongs to. Here's how it works:
 
